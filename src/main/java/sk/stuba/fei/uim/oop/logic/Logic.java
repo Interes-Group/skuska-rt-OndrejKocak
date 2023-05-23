@@ -79,6 +79,12 @@ public class Logic extends UniversalAdapter{
 
     }
 
+    public void updateCanvas(){
+        this.canvas.createLines(this.points);
+        this.canvas.createShapes(this.points, this.spacing, this.radius, this.color, this.mode);
+        this.mainFrame.repaint();
+    }
+
     @Override
     public void stateChanged(ChangeEvent e) {
         JSlider slider = (JSlider) e.getSource();
@@ -92,16 +98,14 @@ public class Logic extends UniversalAdapter{
         else if(slider.equals(window.getSpacingSlider())){
             this.spacing = slider.getValue();
         }
-        canvas.createLines(this.points);
-        canvas.createShapes(points, spacing, radius, color, mode);
-        this.mainFrame.repaint();
+       this.updateCanvas();
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         this.points.clear();
         this.points.add(e.getPoint());
-        mainFrame.repaint();
+        this.mainFrame.repaint();
     }
 
     @Override
@@ -110,9 +114,7 @@ public class Logic extends UniversalAdapter{
            points.remove(0);
        }
        points.add(e.getPoint());
-       canvas.createLines(this.points);
-       canvas.createShapes(points, spacing, radius, color, mode);
-       mainFrame.repaint();
+      this.updateCanvas();
     }
 
     @Override
