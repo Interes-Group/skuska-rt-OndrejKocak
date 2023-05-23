@@ -13,19 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Logic extends UniversalAdapter{
-    private JFrame mainFrame;
+    private final JFrame mainFrame;
 
-    private Window  window;
-
-    @Getter
-    private Canvas canvas;
+    private final Window  window;
 
     @Getter
-    private JLabel leghtLabel;
+    private final Canvas canvas;
+
     @Getter
-    private JLabel radiusLabel;
+    private final JLabel leghtLabel;
     @Getter
-    private JLabel spacingLabel;
+    private final JLabel radiusLabel;
+    @Getter
+    private final JLabel spacingLabel;
 
     private int length;
     private int radius;
@@ -35,7 +35,7 @@ public class Logic extends UniversalAdapter{
 
     private Color color;
 
-    private List<Point> points;
+    private final List<Point> points;
     public Logic(Window window){
         this.mainFrame = window.getFrame();
         this.window = window;
