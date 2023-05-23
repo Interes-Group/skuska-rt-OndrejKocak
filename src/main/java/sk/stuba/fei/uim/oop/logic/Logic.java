@@ -33,6 +33,8 @@ public class Logic extends UniversalAdapter{
 
     private Mode mode;
 
+    private Color color;
+
     private List<Point> points;
     public Logic(Window window){
         this.mainFrame = window.getFrame();
@@ -48,11 +50,15 @@ public class Logic extends UniversalAdapter{
         this.length = 50;
         this.radius = 5;
         this.spacing = 5;
+        this.color = Color.cyan;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
        JComboBox comboBox = ((JComboBox)e.getSource());
+       if(comboBox == null){
+           return;
+       }
        if(comboBox.getSelectedItem().equals(Mode.CIRCLE.getModeName())){
            this.mode = Mode.CIRCLE;
        }
@@ -62,6 +68,15 @@ public class Logic extends UniversalAdapter{
        else if(comboBox.getSelectedItem().equals(Mode.HOURGLASS.getModeName())){
            this.mode = Mode.HOURGLASS;
        }
+       canvas.createShapes(points, spacing, radius, color, mode);
+       this.mainFrame.repaint();
+    }
+
+    private void removePointsAboveLength(){
+        while(points.size() >= length ){
+            points.remove(0);
+        }
+
     }
 
     @Override
@@ -69,6 +84,7 @@ public class Logic extends UniversalAdapter{
         JSlider slider = (JSlider) e.getSource();
         if(slider.equals(window.getLengthSlider())){
             this.length = slider.getValue();
+            removePointsAboveLength();
         }
         else if(slider.equals(window.getRadiusSlider())){
             this.radius = slider.getValue();
@@ -76,6 +92,9 @@ public class Logic extends UniversalAdapter{
         else if(slider.equals(window.getSpacingSlider())){
             this.spacing = slider.getValue();
         }
+        canvas.createLines(this.points);
+        canvas.createShapes(points, spacing, radius, color, mode);
+        this.mainFrame.repaint();
     }
 
     @Override
@@ -92,6 +111,12 @@ public class Logic extends UniversalAdapter{
        }
        points.add(e.getPoint());
        canvas.createLines(this.points);
+       canvas.createShapes(points, spacing, radius, color, mode);
        mainFrame.repaint();
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+       this.mouseMoved(e);
     }
 }
